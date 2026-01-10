@@ -1,0 +1,101 @@
+@page
+@model NextBuy.Pages.ProductDetailsModel
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
+
+<div class="container mt-5" data-aos="fade-up">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="/Index">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Product.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        <div class="col-md-6 mb-4">
+            <div class="position-relative overflow-hidden rounded-3 shadow-sm bg-white p-3" data-aos="zoom-in">
+                @if(!string.IsNullOrEmpty(Model.Product.ImageUrl))
+                {
+                    <img src="@Model.Product.ImageUrl" class="img-fluid rounded w-100 object-fit-cover" alt="@Model.Product.Name" style="max-height: 500px; object-fit: cover;">
+                }
+                else
+                {
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded" style="height: 400px;">
+                        <i class="fas fa-camera fa-5x"></i>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 d-flex flex-column justify-content-center">
+                <span class="badge bg-primary w-auto align-self-start mb-2">@Model.Product.Category?.Name</span>
+                <h1 class="display-4 fw-bold text-dark mb-3">@Model.Product.Name</h1>
+                <h2 class="text-primary fw-bold mb-4">@Model.Product.Price.ToString("F2") MAD</h2>
+                
+                <p class="lead text-muted mb-5">@Model.Product.Description</p>
+                
+                <form method="post" asp-page-handler="AddToCart" asp-route-id="@Model.Product.Id" class="mt-auto">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm hover-float">
+                            <i class="fas fa-cart-plus me-2"></i> Ajouter au panier
+                        </button>
+                        <a asp-page="./Index" class="btn btn-outline-secondary btn-lg px-4">
+                            Continuer vos achats
+                        </a>
+                    </div>
+                </form>
+
+                <div class="mt-5 pt-4 border-top">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <i class="fas fa-truck fa-2x text-muted mb-2"></i>
+                            <p class="small text-muted mb-0">Livraison Rapide</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-shield-alt fa-2x text-muted mb-2"></i>
+                            <p class="small text-muted mb-0">Paiement Sécurisé</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-undo fa-2x text-muted mb-2"></i>
+                            <p class="small text-muted mb-0">Retour Gratuit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.RelatedProducts.Any())
+    {
+        <div class="mt-5 pt-5">
+            <h3 class="mb-4 fw-bold">Produits Similaires</h3>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                @foreach (var related in Model.RelatedProducts)
+                {
+                    <div class="col" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card h-100 shadow-sm border-0 product-card">
+                            <div class="position-relative overflow-hidden" style="height: 200px;">
+                                 @if(!string.IsNullOrEmpty(related.ImageUrl))
+                                {
+                                    <img src="@related.ImageUrl" class="card-img-top w-100 h-100 object-fit-cover" alt="@related.Name" style="object-fit: cover;">
+                                }
+                                else
+                                {
+                                     <div class="d-flex align-items-center justify-content-center bg-secondary text-white h-100">
+                                         <i class="fas fa-camera fa-2x"></i>
+                                     </div>
+                                }
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title text-truncate">@related.Name</h6>
+                                <p class="card-text text-primary fw-bold">@related.Price.ToString("F2") MAD</p>
+                                <a asp-page="/ProductDetails" asp-route-id="@related.Id" class="btn btn-outline-primary btn-sm w-100 stretched-link">Voir</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

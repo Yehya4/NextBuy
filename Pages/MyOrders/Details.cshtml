@@ -1,0 +1,87 @@
+@page
+@model NextBuy.Pages.MyOrders.DetailsModel
+@{
+    ViewData["Title"] = "Détails de la commande";
+}
+
+<div class="container py-5" data-aos="fade-up">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Commande #@Model.Order.Id</h1>
+        <a asp-page="./Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Articles</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th class="text-center">Prix</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Order.OrderItems)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if (!string.IsNullOrEmpty(item.Product.ImageUrl))
+                                                {
+                                                    <img src="@item.Product.ImageUrl" alt="@item.Product.Name" style="width: 50px; height: 50px; object-fit: cover;" class="me-3 rounded" />
+                                                }
+                                                <span>@item.Product.Name</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@item.Price.ToString("C")</td>
+                                        <td class="text-center">@item.Quantity</td>
+                                        <td class="text-end">@((item.Price * item.Quantity).ToString("C"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td colspan="3" class="text-end fw-bold">Total</td>
+                                    <td class="text-end fw-bold">@Model.Order.TotalAmount.ToString("C")</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Informations</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Date:</strong> @Model.Order.OrderDate.ToString("g")</p>
+                    <p><strong>Statut:</strong> 
+                        @if (Model.Order.Status == "En attente")
+                        {
+                            <span class="badge bg-warning text-dark">@Model.Order.Status</span>
+                        }
+                        else if (Model.Order.Status == "Livrée")
+                        {
+                            <span class="badge bg-success">@Model.Order.Status</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">@Model.Order.Status</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

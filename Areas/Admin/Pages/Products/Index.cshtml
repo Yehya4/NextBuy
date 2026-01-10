@@ -1,0 +1,70 @@
+@page
+@model NextBuy.Areas.Admin.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Gérer les Produits";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Produits</h1>
+    <a asp-page="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Nouveau Produit</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" asp-for="SearchString" class="form-control" placeholder="Rechercher un produit...">
+            </div>
+            <div class="col-md-3">
+                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId">
+                    <option value="">Toutes les catégories</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-secondary">Filtrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>@Html.DisplayNameFor(model => model.Product[0].Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Product[0].Price)</th>
+                        <th>@Html.DisplayNameFor(model => model.Product[0].Category)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Product) {
+                        <tr>
+                            <td>
+                                @if(!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    <img src="@item.ImageUrl" style="width: 50px; height: 50px; object-fit: cover;" class="rounded" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Aucune</span>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Price) MAD</td>
+                            <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
+                            <td>
+                                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

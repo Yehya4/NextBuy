@@ -1,0 +1,51 @@
+@page
+@model NextBuy.Areas.Admin.Pages.Clients.IndexModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<NextBuy.Models.ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Gérer les Clients";
+}
+
+<h1>Clients</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Nom</th>
+                        <th>Ville</th>
+                        <th>Téléphone</th>
+                        <th>Rôles</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users) {
+                        <tr>
+                            <td>@user.Email</td>
+                            <td>@user.FirstName @user.LastName</td>
+                            <td>@user.City</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>
+                                @{
+                                    var roles = await UserManager.GetRolesAsync(user);
+                                    foreach(var role in roles)
+                                    {
+                                        <span class="badge bg-secondary">@role</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <a asp-page="./Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Supprimer</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,156 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Accueil";
+}
+
+<!-- Carousel Section -->
+<div id="heroCarousel" class="carousel slide mb-5 shadow-sm rounded-3 overflow-hidden" data-bs-ride="carousel" data-aos="fade-down">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active" style="height: 500px;">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" class="d-block w-100 h-100 object-fit-cover" alt="Tech" style="object-fit: cover;">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3 mb-4">
+                <h1 class="display-4 fw-bold">Technologie de Pointe</h1>
+                <p class="fs-4">Découvrez les derniers gadgets et appareils électroniques.</p>
+                <a href="#products" class="btn btn-primary btn-lg">Voir la Collection</a>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 500px;">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" class="d-block w-100 h-100 object-fit-cover" alt="Fashion" style="object-fit: cover;">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3 mb-4">
+                <h1 class="display-4 fw-bold">Mode Tendance</h1>
+                <p class="fs-4">Renouvelez votre garde-robe avec notre nouvelle collection.</p>
+                <a href="#products" class="btn btn-success btn-lg">Acheter Maintenant</a>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 500px;">
+            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" class="d-block w-100 h-100 object-fit-cover" alt="Sale" style="object-fit: cover;">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3 mb-4">
+                <h1 class="display-4 fw-bold">Offres Spéciales</h1>
+                <p class="fs-4">Profitez de réductions incroyables sur une sélection d'articles.</p>
+                <a href="#products" class="btn btn-warning btn-lg text-white">Voir les Promos</a>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+    </button>
+</div>
+
+<!-- Filter Section -->
+<div class="container mb-5" id="products">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label">Recherche</label>
+                            <input type="text" asp-for="SearchString" class="form-control" placeholder="Produit...">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Catégorie</label>
+                            <select asp-for="CategoryId" class="form-select">
+                                <option value="">Toutes</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Prix Min</label>
+                            <input type="number" asp-for="MinPrice" class="form-control" placeholder="Min">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Prix Max</label>
+                            <input type="number" asp-for="MaxPrice" class="form-control" placeholder="Max">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Trier par</label>
+                            <select asp-for="SortOrder" class="form-select">
+                                <option value="">Nom (A-Z)</option>
+                                <option value="name_desc">Nom (Z-A)</option>
+                                <option value="price_asc">Prix croissant</option>
+                                <option value="price_desc">Prix décroissant</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                             <button type="submit" class="btn btn-primary w-100"><i class="fas fa-filter"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Products Grid -->
+<div class="container">
+    <h2 class="text-center mb-4" data-aos="fade-up">Nos Produits</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col" data-aos="zoom-in" data-aos-delay="100">
+                <div class="card h-100 shadow-sm border-0 product-card">
+                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                         @if(!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl" class="card-img-top w-100 h-100 object-fit-cover" alt="@product.Name" style="object-fit: cover;">
+                        }
+                        else
+                        {
+                             <div class="d-flex align-items-center justify-content-center bg-secondary text-white h-100">
+                                 <i class="fas fa-camera fa-3x"></i>
+                             </div>
+                        }
+                        <div class="position-absolute top-0 end-0 p-2">
+                            <span class="badge bg-primary">@product.Category?.Name</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-truncate">@product.Description</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0 fw-bold text-primary">@product.Price.ToString("F2") MAD</span>
+                            <div>
+                                <a asp-page="/ProductDetails" asp-route-id="@product.Id" class="btn btn-outline-primary btn-sm me-1"><i class="fas fa-eye"></i> Détails</a>
+                                <form method="post" asp-page-handler="AddToCart" asp-route-id="@product.Id" class="d-inline">
+                                     @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    @if (!Model.Products.Any())
+    {
+        <div class="text-center mt-5">
+            <p class="lead text-muted">Aucun produit trouvé.</p>
+        </div>
+    }
+</div>
+
+<style>
+    .product-card {
+        transition: transform 0.3s;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+</style>

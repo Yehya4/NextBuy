@@ -1,0 +1,124 @@
+@page
+@model NextBuy.Pages.CartModel
+@{
+    ViewData["Title"] = "Mon Panier";
+}
+
+<div class="container mt-5" data-aos="fade-up">
+    <h1 class="mb-4 fw-bold"><i class="fas fa-shopping-bag text-primary me-2"></i>Mon Panier</h1>
+
+    @if (Model.CartItems.Any())
+    {
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="card-body p-4">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col" class="border-0 rounded-start">Produit</th>
+                                        <th scope="col" class="border-0">Prix</th>
+                                        <th scope="col" class="border-0">Quantité</th>
+                                        <th scope="col" class="border-0">Total</th>
+                                        <th scope="col" class="border-0 rounded-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CartItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (!string.IsNullOrEmpty(item.Product.ImageUrl))
+                                                    {
+                                                        <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="rounded-3 me-3 shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="bg-secondary text-white rounded-3 me-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 60px; height: 60px;">
+                                                            <i class="fas fa-camera"></i>
+                                                        </div>
+                                                    }
+                                                    <div>
+                                                        <h6 class="mb-0 fw-bold">@item.Product.Name</h6>
+                                                        <small class="text-muted">@item.Product.Category?.Name</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="fw-bold text-dark">@item.Product.Price.ToString("F2") MAD</td>
+                                            <td>
+                                                <div class="input-group input-group-sm" style="width: 120px;">
+                                                    <form method="post" asp-page-handler="Decrease" asp-route-id="@item.Product.Id" class="d-inline">
+                                                        <button type="submit" class="btn btn-outline-secondary" @(item.Quantity <= 1 ? "disabled" : "")><i class="fas fa-minus"></i></button>
+                                                    </form>
+                                                    <input type="text" class="form-control text-center border-secondary" value="@item.Quantity" readonly>
+                                                    <form method="post" asp-page-handler="Increase" asp-route-id="@item.Product.Id" class="d-inline">
+                                                        <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-plus"></i></button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                            <td class="fw-bold text-primary">@item.Total.ToString("F2") MAD</td>
+                                            <td>
+                                                <form method="post" asp-page-handler="Remove" asp-route-id="@item.Product.Id">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm" title="Supprimer">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 rounded-3 bg-light" data-aos="fade-left">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-4">Résumé de la commande</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Sous-total</span>
+                            <span class="fw-bold">@Model.TotalAmount.ToString("F2") MAD</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Livraison</span>
+                            <span class="text-success">Gratuit</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="h5 fw-bold">Total</span>
+                            <span class="h5 fw-bold text-primary">@Model.TotalAmount.ToString("F2") MAD</span>
+                        </div>
+                        <div class="d-grid gap-3">
+                            <a asp-page="/Checkout" class="btn btn-primary btn-lg shadow-sm">Passer la commande</a>
+                            <form method="post" asp-page-handler="Clear">
+                                <button type="submit" class="btn btn-outline-danger w-100">Vider le panier</button>
+                            </form>
+                            <a asp-page="/Index" class="btn btn-link text-decoration-none">
+                                <i class="fas fa-arrow-left me-2"></i>Continuer vos achats
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5 my-5" data-aos="zoom-in">
+            <div class="mb-4">
+                <span class="fa-stack fa-4x text-muted opacity-50">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-shopping-basket fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
+            <h2 class="fw-bold">Votre panier est vide</h2>
+            <p class="lead text-muted mb-4">Il semble que vous n'ayez pas encore ajouté de produits.</p>
+            <a asp-page="/Index" class="btn btn-primary btn-lg px-5 shadow-sm hover-float">
+                Découvrir nos produits
+            </a>
+        </div>
+    }
+</div>

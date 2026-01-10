@@ -1,0 +1,68 @@
+@page
+@model NextBuy.Pages.MyOrders.IndexModel
+@{
+    ViewData["Title"] = "Mes Commandes";
+}
+
+<div class="container py-5" data-aos="fade-up">
+    <h1 class="mb-4">Mes Commandes</h1>
+
+    @if (Model.Orders != null && Model.Orders.Any())
+    {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Orders)
+                    {
+                        <tr>
+                            <td>
+                                @item.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td>
+                                @if (item.Status == "En attente")
+                                {
+                                    <span class="badge bg-warning text-dark">@item.Status</span>
+                                }
+                                else if (item.Status == "Livrée")
+                                {
+                                    <span class="badge bg-success">@item.Status</span>
+                                }
+                                else if (item.Status == "Annulée")
+                                {
+                                    <span class="badge bg-danger">@item.Status</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary">@item.Status</span>
+                                }
+                            </td>
+                            <td>
+                                @item.TotalAmount.ToString("C")
+                            </td>
+                            <td>
+                                <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> Détails
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info shadow-sm">
+            Vous n'avez pas encore passé de commande.
+            <a asp-page="/Index" class="alert-link">Commencer vos achats</a>.
+        </div>
+    }
+</div>

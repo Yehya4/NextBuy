@@ -1,0 +1,70 @@
+@page
+@model NextBuy.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "Validation de la commande";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Validation de la commande</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Adresse de livraison</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1"><strong>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</strong></p>
+                    <p class="mb-1">@Model.CurrentUser.Address</p>
+                    <p class="mb-1">@Model.CurrentUser.City</p>
+                    <p class="mb-0">@Model.CurrentUser.PhoneNumber</p>
+                    <hr>
+                    <small class="text-muted">Si ces informations sont incorrectes, veuillez les mettre à jour dans votre profil.</small>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-sm btn-outline-primary ms-2">Modifier</a>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Mode de paiement</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="cod" checked>
+                        <label class="form-check-label" for="cod">
+                            Paiement à la livraison (Cash on Delivery)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Récapitulatif</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        @foreach(var item in Model.CartItems)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <h6 class="my-0">@item.Product.Name</h6>
+                                    <small class="text-muted">Qté: @item.Quantity</small>
+                                </div>
+                                <span class="text-muted">@item.Total.ToString("F2")</span>
+                            </li>
+                        }
+                        <li class="list-group-item d-flex justify-content-between px-0 fw-bold">
+                            <span>Total (MAD)</span>
+                            <span>@Model.TotalAmount.ToString("F2")</span>
+                        </li>
+                    </ul>
+                    <form method="post">
+                        <button type="submit" class="btn btn-success w-100 btn-lg">Confirmer la commande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

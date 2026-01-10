@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NextBuy</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NextBuy.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 sticky-top">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-page="/Index"><i class="fas fa-shopping-bag"></i> NextBuy</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" fragment="products">Boutique</a>
+                        </li>
+                         @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-area="Admin" asp-page="/Dashboard">Admin Panel</a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5">
+        <div class="container text-center text-md-start">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 animate-fade-in">
+                    <h5 class="text-uppercase mb-4 fw-bold text-primary-custom">
+                        <i class="fas fa-shopping-bag me-2"></i>NextBuy
+                    </h5>
+                    <p>Votre destination numéro un pour tous vos besoins. Qualité, rapidité et fiabilité sont nos maîtres mots.</p>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 animate-fade-in" style="animation-delay: 0.2s;">
+                    <h5 class="text-uppercase mb-4 fw-bold text-primary-custom">Liens Utiles</h5>
+                    <p><a asp-page="/Index" class="text-white hover-underline">Accueil</a></p>
+                    <p><a asp-page="/About" class="text-white hover-underline">À propos</a></p>
+                    <p><a asp-page="/Contact" class="text-white hover-underline">Contact</a></p>
+                    <p><a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-white hover-underline">Mon Compte</a></p>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3 animate-fade-in" style="animation-delay: 0.4s;">
+                    <h5 class="text-uppercase mb-4 fw-bold text-primary-custom">Légal</h5>
+                    <p><a href="#" class="text-white hover-underline">Conditions d'utilisation</a></p>
+                    <p><a href="#" class="text-white hover-underline">Politique de confidentialité</a></p>
+                    <p><a href="#" class="text-white hover-underline">Livraisons & Retours</a></p>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 animate-fade-in" style="animation-delay: 0.6s;">
+                    <h5 class="text-uppercase mb-4 fw-bold text-primary-custom">Contact</h5>
+                    <p><i class="fas fa-home mr-3 me-2"></i> Casablanca, Maroc</p>
+                    <p><i class="fas fa-envelope mr-3 me-2"></i> contact@nextbuy.ma</p>
+                    <p><i class="fas fa-phone mr-3 me-2"></i> +212 6 00 00 00 00</p>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-7 col-lg-8">
+                    <p>&copy; 2026 - <strong>NextBuy</strong> - Tous droits réservés.</p>
+                </div>
+                <div class="col-md-5 col-lg-4">
+                    <div class="text-center text-md-end">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-floating btn-sm text-white fs-5 hover-float"><i class="fab fa-facebook"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-floating btn-sm text-white fs-5 hover-float"><i class="fab fa-twitter"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-floating btn-sm text-white fs-5 hover-float"><i class="fab fa-instagram"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-floating btn-sm text-white fs-5 hover-float"><i class="fab fa-linkedin-in"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

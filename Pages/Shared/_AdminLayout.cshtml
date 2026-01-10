@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NextBuy Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NextBuy.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .admin-sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .admin-sidebar a {
+            color: rgba(255,255,255,.75);
+            padding: 10px 15px;
+            display: block;
+            text-decoration: none;
+        }
+        .admin-sidebar a:hover, .admin-sidebar a.active {
+            color: white;
+            background-color: rgba(255,255,255,.1);
+        }
+        .admin-content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <div class="admin-sidebar p-3" style="width: 250px;">
+            <h4 class="text-white mb-4">NextBuy Admin</h4>
+            <nav class="nav flex-column">
+                <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Dashboard") == true ? "active" : "")" asp-area="Admin" asp-page="/Dashboard">
+                    <i class="fas fa-tachometer-alt me-2"></i> Tableau de bord
+                </a>
+                <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Products") == true ? "active" : "")" asp-area="Admin" asp-page="/Products/Index">
+                    <i class="fas fa-box me-2"></i> Produits
+                </a>
+                <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Categories") == true ? "active" : "")" asp-area="Admin" asp-page="/Categories/Index">
+                    <i class="fas fa-tags me-2"></i> Catégories
+                </a>
+                <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Orders") == true ? "active" : "")" asp-area="Admin" asp-page="/Orders/Index">
+                    <i class="fas fa-shopping-cart me-2"></i> Commandes
+                </a>
+                <hr class="text-white-50" />
+                <a class="nav-link" asp-area="" asp-page="/Index">
+                    <i class="fas fa-home me-2"></i> Retour au Site
+                </a>
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                    <button type="submit" class="nav-link btn btn-link text-start w-100 text-white-50">
+                        <i class="fas fa-sign-out-alt me-2"></i> Déconnexion
+                    </button>
+                </form>
+            </nav>
+        </div>
+        <div class="flex-grow-1 bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4">
+                <div class="container-fluid">
+                    <span class="navbar-text ms-auto">
+                        Bonjour, @User.Identity?.Name
+                    </span>
+                </div>
+            </nav>
+            <div class="admin-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

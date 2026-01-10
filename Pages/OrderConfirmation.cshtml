@@ -1,0 +1,20 @@
+@page
+@model NextBuy.Pages.OrderConfirmationModel
+@{
+    ViewData["Title"] = "Commande Confirmée";
+}
+
+<div class="container mt-5 text-center" data-aos="zoom-in">
+    <div class="card shadow p-5">
+        <div class="mb-4">
+            <i class="fas fa-check-circle text-success fa-5x"></i>
+        </div>
+        <h1 class="display-4 text-success">Merci !</h1>
+        <p class="lead">Votre commande #@Model.Order.Id a été enregistrée avec succès.</p>
+        <p>Nous traiterons votre commande dans les plus brefs délais.</p>
+        
+        <div class="mt-4">
+            <a asp-page="/Index" class="btn btn-primary btn-lg">Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
