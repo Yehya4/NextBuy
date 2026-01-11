@@ -18,20 +18,6 @@ NextBuy est une application web de dropshipping complète construite avec ASP.NE
 *   **ORM** : Entity Framework Core
 *   **Frontend** : HTML5, CSS3, JavaScript (Bootstrap intégré)
 
-## 📋 Prérequis
-
-Avant de commencer, assurez-vous d'avoir installé :
-
-*   [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-*   [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) (ou LocalDB)
-
-## 🔧 Installation et Démarrage
-
-1.  **Cloner le dépôt**
-    ```bash
-    git clone <votre-url-repo>
-    cd NextBuy
-    ```
 
 2.  **Configuration de la Base de Données**
     Assurez-vous que la chaîne de connexion dans `appsettings.json` pointe vers votre instance SQL Server locale.
@@ -60,7 +46,3 @@ Avant de commencer, assurez-vous d'avoir installé :
 *   **Data/** : Contexte de base de données (DbContext) et migrations.
 *   **wwwroot/** : Fichiers statiques (CSS, JS, Images).
 *   **Areas/** : Sections distinctes comme l'interface d'administration (si applicable).
-
-## 👤 Auteur
-
-Projet développé par Yahya.
